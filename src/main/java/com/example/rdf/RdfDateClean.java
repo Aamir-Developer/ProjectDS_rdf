@@ -43,9 +43,10 @@ public class RdfDateClean {
 		model.read(inputFileName);
 		StmtIterator iterator = model.listStatements(new SimpleSelector(null, DCTerms.issued,(RDFNode) null));
 //		System.out.println("i am here 1"+iterator);
-		int i=0,j=0;
+		int i=0,j=0, k=0;
 		RDFNode UnchangedDateArr[] = null;
 		String changedDateArr [] = null;
+//		String splited[] = null;
 		while(iterator.hasNext()) {
 //			System.out.println("m while mei aagya");
 			Statement my_st = iterator.nextStatement();
@@ -68,14 +69,32 @@ public class RdfDateClean {
 			else if((object.toString().matches(date1_date2)) )
 			 {
 				 //System.out.println(object.toString());
-				String new_date = checkDate(object.toString());
+//				String new_date = checkDate(object.toString());
 //				System.out.println("new_date   "+new_date);
 			
 			 }
+			
 			else {
+//				String str = "Hello I'm your String";
+//				String[] splited = str.split("\\s+");
+//				String bis = null;;
+			    String mystr = object.toString();
+				
+				
+				if(mystr.contains("bis")) {
+					String[] splited =  mystr.split("bis");
+//					System.out.println("splited    "+ splited[0]);
+				}
+				else {
+				     System.out.println("unused dates:"+ mystr);
+				     System.out.println("ignored:"+ k++);
+				     
+				}
+				
+				
 //				UnchangedDateArr[i] = object;
-				System.out.println(object.toString());
-				System.out.println("j::::"+ j++);
+//				System.out.println(object.toString());
+//				System.out.println("j::::"+ j++);
 			}
 				
 		}
