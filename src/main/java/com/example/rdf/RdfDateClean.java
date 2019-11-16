@@ -19,20 +19,22 @@ import org.apache.jena.vocabulary.DCTerms;
 
 public class RdfDateClean {
 	static final String inputFileName  = "model1.ttl";
+	//Date format 31.12.1990
+	String dd_mm_yyyy = "\\d{2}[.]\\d{2}[.]\\d{4}$";
+
 	String checkDate( String oldDateString) throws ParseException {
-		System.out.println("m  checkdate m aagya");
+		System.out.println("-----------------------------------------------------------------");
 		
 		String old_format = "dd.MM.yyyy";
 		String new_format = "yyyy.MM.dd";
-//	if(old_format)	
+	
 		SimpleDateFormat sdf = new SimpleDateFormat(old_format);
-		System.out.println("check sdf"+sdf);
 		Date date = sdf.parse(oldDateString);
-		System.out.println("check date"+date);
 		sdf.applyPattern(new_format);
 		String newDateString = sdf.format(date);
-		System.out.println("newDateString:"+newDateString);
-		
+		System.out.println("oldDateString:::"+oldDateString);
+		System.out.println("newDateString:::"+newDateString);
+		System.out.println("-----------------------------------------------------------------");
 		return newDateString;
 	}
 	
@@ -42,8 +44,9 @@ public class RdfDateClean {
 		Model model = ModelFactory.createDefaultModel();
 		model.read(inputFileName);
 		StmtIterator iterator = model.listStatements(new SimpleSelector(null, DCTerms.issued,(RDFNode) null));
-		System.out.println("i am here 1"+iterator);
-		int i=0;
+//		System.out.println("i am here 1"+iterator);
+		int i=0,j=0;
+		RDFNode UnchangedDateArr[] = null;
 		String changedDateArr [] = null;
 		while(iterator.hasNext()) {
 //			System.out.println("m while mei aagya");
@@ -54,14 +57,26 @@ public class RdfDateClean {
 			i++;
 //			System.out.println("subject"+subject);
 //			System.out.println("predicate"+predicate);
-			System.out.println("object    "+object.toString());
+//			System.out.println("object    "+object.toString());
 //			String changedDate = checkDate(object.toString());
 //			changedDateArr[i]= changedDate;
+			if((object.toString().matches(dd_mm_yyyy)) )
+			 {
+				 //System.out.println(object.toString());
+				String new_date = checkDate(object.toString());
+//				System.out.println("new_date   "+new_date);
 			
-			System.out.println("ohh yeah!!!"+ i);	
+			 }
+			else {
+//				UnchangedDateArr[i] = object;
+				System.out.println("values:::::"+object.toString());
+				System.out.println("j::::"+ j++);
+			}
+				
 		}
 		
-		
+//		System.out.println("UnchangedDateArr::"+ Arrays.toString(UnchangedDateArr));
+		System.out.println("ohh yeah!!!");
 		return null;	
 	}
 	
