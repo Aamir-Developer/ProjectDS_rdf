@@ -8,11 +8,11 @@ public class demo {
 
 	public static void main(String[] args) throws ParseException {
 		
-//    int av = (int) 'a';
-		String mystr = "1949-01-01 biss gestern";
+    int av = (int) 'a';
+		String mystr = "1949-01-01 bis gestern";
 		
 		Boolean bisCheck = mystr.contains("bis");
-		System.out.println(bisCheck);
+		System.out.println(mystr.length);
 		String[] splited =  mystr.split("bis");
 		System.out.println("splited    "+ splited[0]);
 		
