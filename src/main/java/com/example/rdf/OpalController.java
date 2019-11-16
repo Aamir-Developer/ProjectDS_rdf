@@ -11,7 +11,7 @@ import org.apache.jena.rdfconnection.RDFConnectionRemoteBuilder;
 public class OpalController {
 	
 	private RDFConnectionRemoteBuilder rdfcon = RDFConnectionFuseki.create().destination("http://127.0.0.1:3030/opal100");
-    
+
 	
 	public String fetchData() {
 	
@@ -25,7 +25,7 @@ public class OpalController {
 			
 			String resultReceived =  new String(outputStream.toByteArray());
 //			System.out.printf("check result"+ resultReceived);
-			return resultReceived;			
+			return resultReceived;			 
 		}
 	}
 	
