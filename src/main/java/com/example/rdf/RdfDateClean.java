@@ -1,10 +1,7 @@
 package com.example.rdf;
 
-import java.io.File;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.jena.rdf.model.Model;
@@ -14,13 +11,14 @@ import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.util.FileManager;
 import org.apache.jena.vocabulary.DCTerms;
 
 public class RdfDateClean {
 	static final String inputFileName  = "model1.ttl";
 	//Date format 31.12.1990
 	String dd_mm_yyyy = "\\d{2}[.]\\d{2}[.]\\d{4}$";
+	//01.01.1949 - 31.12.2017
+	String date1_date2 = "\\d{2}[.]\\d{2}[.]\\d{4}\\s[-]\\s\\d{2}[.]\\d{2}[.]\\d{4}";
 
 	String checkDate( String oldDateString) throws ParseException {
 		System.out.println("-----------------------------------------------------------------");
@@ -63,13 +61,20 @@ public class RdfDateClean {
 			if((object.toString().matches(dd_mm_yyyy)) )
 			 {
 				 //System.out.println(object.toString());
+//				String new_date = checkDate(object.toString());
+//				System.out.println("new_date   "+new_date);
+			
+			 }
+			else if((object.toString().matches(date1_date2)) )
+			 {
+				 //System.out.println(object.toString());
 				String new_date = checkDate(object.toString());
 //				System.out.println("new_date   "+new_date);
 			
 			 }
 			else {
 //				UnchangedDateArr[i] = object;
-				System.out.println("values:::::"+object.toString());
+				System.out.println(object.toString());
 				System.out.println("j::::"+ j++);
 			}
 				
