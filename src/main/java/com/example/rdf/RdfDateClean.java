@@ -80,20 +80,19 @@ public class RdfDateClean {
 //						System.out.println("ignored:" + counter++);
 
 					} else {
-						System.out.println("others.cleaned directly save this to db file.." + splited[0].trim());
+//						System.out.println("others.cleaned directly save this to db file.." + splited[0].trim());
 //						System.out.println("ignored:" + counter++);
 					}
 				}
 //				UnchangedDateArr[i] = object;
-//				System.out.println(object.toString());
-//				System.out.println("j::::"+ j++);
+				System.out.println(object.toString());
+				System.out.println("j::::"+ j++);
+				System.out.println("object::::"+ object);
 			}
 
 		}
 
-//		System.out.println("UnchangedDateArr::"+ Arrays.toString(UnchangedDateArr));
-		System.out.println("ohh yeah!!!");
-		return null;
+		return "Data Cleaned Successfully!!";
 	}
 
 	public static void main(String[] args) throws ParseException {
@@ -104,7 +103,7 @@ public class RdfDateClean {
 //		
 		RdfDateClean rdcobj = new RdfDateClean();
 		rdcobj.checkDate(oldDateString);
-		rdcobj.writeLogic();
+		String result = rdcobj.writeLogic();
 	}
 
 }
