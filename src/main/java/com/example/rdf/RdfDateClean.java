@@ -21,7 +21,7 @@ public class RdfDateClean {
 	String date1_date2 = "\\d{2}[.]\\d{2}[.]\\d{4}\\s[-]\\s\\d{2}[.]\\d{2}[.]\\d{4}";
 
 	String checkDate(String oldDateString) throws ParseException {
-		System.out.println("-----------------------------------------------------------------");
+//		System.out.println("-----------------------------------------------------------------");
 
 		String old_format = "dd.MM.yyyy";
 		String new_format = "yyyy.MM.dd";
@@ -30,9 +30,9 @@ public class RdfDateClean {
 		Date date = sdf.parse(oldDateString);
 		sdf.applyPattern(new_format);
 		String newDateString = sdf.format(date);
-		System.out.println("oldDateString:::" + oldDateString);
-		System.out.println("newDateString:::" + newDateString);
-		System.out.println("-----------------------------------------------------------------");
+//		System.out.println("oldDateString:::" + oldDateString);
+//		System.out.println("newDateString:::" + newDateString);
+//		System.out.println("-----------------------------------------------------------------");
 		return newDateString;
 	}
 
@@ -49,51 +49,41 @@ public class RdfDateClean {
 //		String splited[] = null;
 		int counter = 0;
 		while (iterator.hasNext()) {
-//			System.out.println("m while mei aagya");
 			Statement my_st = iterator.nextStatement();
 			Resource subject = my_st.getSubject();
 			RDFNode predicate = my_st.getPredicate();
 			RDFNode object = my_st.getObject();
-			i++;
-//			System.out.println("subject"+subject);
-//			System.out.println("predicate"+predicate);
-//			System.out.println("object    "+object.toString());
-//			String changedDate = checkDate(object.toString());
-//			changedDateArr[i]= changedDate;
 			if ((object.toString().matches(dd_mm_yyyy))) {
-				// System.out.println(object.toString());
 //				String new_date = checkDate(object.toString());
 //				System.out.println("new_date   "+new_date);
 
 			} else if ((object.toString().matches(date1_date2))) {
-				// System.out.println(object.toString());
 //				String new_date = checkDate(object.toString());
 //				System.out.println("new_date   "+new_date);
-
 			}
 
 			else {
-				String mystr = object.toString();
-				if (mystr.contains("bis")) {
-					String[] splited = mystr.split("bis");
-					System.out.println(splited[0]);
+
+				if (object.toString().contains("bis")) {
+					String[] splited = object.toString().split("bis");
+
 					if ((splited[0].trim().matches(dd_mm_yyyy))) {
-						// System.out.println(object.toString());
-						String new_date = checkDate(object.toString());
-						System.out.println("new_date   " + new_date);
+//						 System.out.println("before changing but after split date "+splited[0].trim());
+						String new_date = checkDate(splited[0].trim());
+//						System.out.println("new_date   " + new_date);
 
 					}
-//					String new_date = checkDate(splited[0].trim());
 
+					else if (splited[0].trim().length() <= 4) {
+
+//						System.out.println("unused dates:" + splited[0].trim());
+//						System.out.println("ignored:" + counter++);
+
+					} else {
+						System.out.println("others.cleaned directly save this to db file.." + splited[0].trim());
+//						System.out.println("ignored:" + counter++);
+					}
 				}
-
-				else if (mystr.length() <= 4) {
-
-					System.out.println("unused dates:" + mystr);
-					System.out.println("ignored:" + counter++);
-
-				}
-
 //				UnchangedDateArr[i] = object;
 //				System.out.println(object.toString());
 //				System.out.println("j::::"+ j++);
