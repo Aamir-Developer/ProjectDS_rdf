@@ -14,6 +14,7 @@ import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.vocabulary.DCTerms;
 
 public class RdfDateClean {
+	
 	static final String inputFileName = "model1.ttl";
 	// Date format 31.12.1990
 	String dd_mm_yyyy = "\\d{2}[.]\\d{2}[.]\\d{4}$";
