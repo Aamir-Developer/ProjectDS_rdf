@@ -7,7 +7,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
 import org.apache.jena.rdfconnection.RDFConnectionFuseki;
 import org.apache.jena.rdfconnection.RDFConnectionRemoteBuilder;
-
+ 
 public class OpalController {
 	
 	private RDFConnectionRemoteBuilder rdfcon = RDFConnectionFuseki.create().destination("http://127.0.0.1:3030/opal100");
