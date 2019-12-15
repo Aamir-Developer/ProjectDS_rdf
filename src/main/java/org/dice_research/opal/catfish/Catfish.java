@@ -59,23 +59,20 @@ public class Catfish implements JenaModelProcessor {
 		LOGGER.info("Processing dataset " + datasetUri);
 
 		ArrayList<String> new_dates = new ArrayList<String>();
-
+//		2018-07-09T09:40:19.518623
 		if ((datasetUri.matches(DateTimeZone1))) {
 			String new_date = checkDate(datasetUri, "yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-
 			new_dates.add(new_date);
 		}
 		// Format 2018-07-09 09:40:19.518623
 		if ((datasetUri.matches(DateTimeZone2))) {
 			String new_date = checkDate(datasetUri, "yyyy-MM-dd HH:mm:ss.SSSSSS");
-
 			new_dates.add(new_date);
 		}
 
 		// Date format 31.12.1990
 		else if ((datasetUri.matches(dd_mm_yyyy))) {
 			String new_date = checkDate(datasetUri, "dd.MM.yyyy");
-
 			new_dates.add(new_date);
 		}
 
@@ -84,7 +81,6 @@ public class Catfish implements JenaModelProcessor {
 			// System.out.println(datasetUri);
 			String new_date = datasetUri.contains("-") ? checkDate(datasetUri.split("-")[1].trim(), "dd.MM.yyyy")
 					: checkDate(datasetUri.split("�")[1].trim(), "dd.MM.yyyy");
-
 			new_dates.add(new_date);
 		}
 
@@ -92,14 +88,12 @@ public class Catfish implements JenaModelProcessor {
 		// 22:59:59 GMT 2006"
 		else if (datasetUri.matches(day_month_date_time_day_month_date_time)) {
 			String new_date = checkDate(datasetUri.split("�")[1].trim(), "EEE MMM dd HH:mm:ss 'GMT' yyyy");
-
 			new_dates.add(new_date);
 		}
 
 		// Date Clean for format like "Tue Mar 19 00:00:00 GMT 2019"
 		else if (datasetUri.matches(day_month_date_time)) {
 			String new_date = checkDate(datasetUri, "EEE MMM dd HH:mm:ss 'GMT' yyyy");
-
 			new_dates.add(new_date);
 		}
 
@@ -114,7 +108,6 @@ public class Catfish implements JenaModelProcessor {
 
 	public static void main(String[] args) throws Exception {
 		Catfish rdcobj = new Catfish();
-
 		Model my_model = ModelFactory.createDefaultModel();
 		String inputFileName = "model1.ttl";
 		my_model.read(inputFileName);
@@ -123,8 +116,6 @@ public class Catfish implements JenaModelProcessor {
 		while (iterator.hasNext()) {
 
 			Statement my_st = iterator.nextStatement();
-			// Resource subject = my_st.getSubject();
-			// RDFNode predicate = my_st.getPredicate();
 			RDFNode dataseturi = (my_st.getObject());
 			rdcobj.process(my_model1, dataseturi.toString());
 		}
