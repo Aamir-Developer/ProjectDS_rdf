@@ -2,6 +2,7 @@ package org.dice_research.opal.civet.metrics;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.ResourceFactory;
 import org.apache.jena.rdf.model.SimpleSelector;
 import org.apache.jena.rdf.model.Statement;
 import org.apache.jena.rdf.model.StmtIterator;
@@ -14,7 +15,7 @@ import org.dice_research.opal.civet.Metric;
 import org.dice_research.opal.common.vocabulary.Opal;
 
 /**
- * The Expressiveness awards stars based on the the different factors in the
+ * The Description metric awards stars based on the the different factors in the
  * dataset
  * 
  * @author Aamir Mohammed
@@ -35,8 +36,8 @@ public class Description implements Metric {
 		}
 	}
 
-	private static final Logger LOGGER = LogManager.getLogger();
-	private static final String DESCRIPTION = "Extract description information from dataset"
+	private static final Logger logger = LogManager.getLogger();
+	private static final String descriptions = "Extract description information from dataset"
 			+ "If dataset has description and if length is not empty and length of description > length of title then award 5 star "
 			+ "Else if dataset has description but length of desc = length of title give 5 star."
 			+ "Else if dataset has description but length of desc < length of title give 2 star."
@@ -44,19 +45,24 @@ public class Description implements Metric {
 
 	@Override
 	public Integer compute(Model model, String datasetUri) throws Exception {
-		LOGGER.info("Processing dataset " + datasetUri);
+		logger.info("Processing dataset " + datasetUri);
+		Resource dataset = ResourceFactory.createResource(datasetUri);
+		 
+		if(model.isEmpty()) {
+			return null;
+		}
 		int scores = 1;
 
-		StmtIterator DatasetIterator = model.listStatements(new SimpleSelector(null, RDF.type, DCAT.Dataset));
-		if (DatasetIterator.hasNext()) {
-			Statement DataSetSentence = DatasetIterator.nextStatement();
-			Resource DataSet = DataSetSentence.getSubject();
+		StmtIterator datasetIterator = model.listStatements(new SimpleSelector(dataset, RDF.type, DCAT.Dataset));
+		if (datasetIterator.hasNext()) {
+			Statement dataSetSentence = datasetIterator.nextStatement();
+			Resource dataSet = dataSetSentence.getSubject();
 
-			if (DataSet.hasProperty(DCTerms.description)
-					&& !(DataSet.getProperty(DCTerms.description).getObject().toString().isEmpty())) {
+			if (dataSet.hasProperty(DCTerms.description)
+					&& !(dataSet.getProperty(DCTerms.description).getObject().toString().isEmpty())) {
 				scores += 1;
-				String dctdescription = DataSet.getProperty(DCTerms.description).getObject().toString();
-				String dcttitle = DataSet.getProperty(DCTerms.title).getObject().toString();
+				String dctdescription = dataSet.getProperty(DCTerms.description).getObject().toString();
+				String dcttitle = dataSet.getProperty(DCTerms.title).getObject().toString();
 				scores = compareDescWithTitle(dctdescription, dcttitle, scores);
 
 			} else {
@@ -70,7 +76,7 @@ public class Description implements Metric {
 
 	@Override
 	public String getDescription() {
-		return DESCRIPTION;
+		return descriptions;
 	}
 
 	@Override
